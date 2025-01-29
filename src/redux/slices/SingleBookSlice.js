@@ -7,31 +7,29 @@ const singleBookApi = api.injectEndpoints({
       query: (bookId) => `/books/${bookId}`,
     }),
     checkoutBook: builder.mutation({
-      query: ({ bookId, userId }) => ({
-        url: `/books/checkout`,
-        method: "POST",
-        body: { bookId, userId },
+      query: ({ bookId }) => ({
+        url: `/books/${bookId}/checkout`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
       }),
+      invalidatesTags: ["Books"],
+    }),
+    returnBook: builder.mutation({
+      query: ({ bookId }) => ({
+        url: `/books/${bookId}/return`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Books"],
     }),
   }),
 });
 
-const singleBookSlice = createSlice({
-  name: "singleBook",
-  initialState: {
-    selectedBook: null,
-    error: null,
-  },
-  reducers: {
-    setSelectedBook(state, action) {
-      state.selectedBook = action.payload;
-    },
-    setError(state, action) {
-      state.error = action.payload;
-    },
-  },
-});
-
-export const { setSelectedBook, setError } = singleBookSlice.actions;
-export const { useFetchBookDetailsQuery, useCheckoutBookMutation } = singleBookApi;
-export default singleBookSlice.reducer;
+export const { useFetchBookDetailsQuery, useCheckoutBookMutation, useReturnBookMutation } = singleBookApi;
+export default singleBookApi;

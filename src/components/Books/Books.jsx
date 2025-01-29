@@ -9,7 +9,6 @@ const Books = () => {
     console.log("Books API response:", books);
   }, [books]);
 
-  // Extract the actual books array from the API response
   const bookList = books && books.books ? books.books : [];
 
   if (isLoading) return <p>Loading books...</p>;

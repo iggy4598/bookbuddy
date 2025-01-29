@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
   const [addLogin, { isLoading }] = useAddLoginMutation();
-  const { refetch } = useGetBooksQuery(); // Fetch books after login
+  const { refetch } = useGetBooksQuery();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,7 +20,7 @@ const Login = () => {
       const result = await addLogin({ email, password }).unwrap();
       if (result) {
         alert("Login successful!");
-        refetch(); // Fetch books after login
+        refetch(); 
         navigate("/books");
       }
     } catch (error) {
